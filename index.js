@@ -1,4 +1,4 @@
-import ProductManager from './ProductManager.js'
+import ProductManager from './src/ProductManager.js'
 
 const mockProduct = {
     title: 'Producto prueba',

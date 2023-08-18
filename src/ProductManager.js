@@ -24,6 +24,10 @@ class ProductManager {
             return 'Todos los campos son obligatorios'
         }
 
+        if (!fs.existsSync(this.#path)) {
+            return 'El archivo no existe en la base de datos.'
+        }
+
         let data = await fs.promises.readFile(this.#path, 'utf-8')
 
         let products = JSON.parse(data)
@@ -34,7 +38,7 @@ class ProductManager {
             return 'El código ya existe.'
         }
 
-        const productToAdd = {id: this.#generateId(products), ...product}
+        const productToAdd = { id: this.#generateId(products), ...product }
         products.push(productToAdd)
 
         await fs.promises.writeFile(this.#path, JSON.stringify(products, null, 2))
