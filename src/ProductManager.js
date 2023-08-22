@@ -15,9 +15,7 @@ class ProductManager {
     }
 
     async addProduct(product) {
-
         const requiredFields = ["title", "description", "price", "thumbnail", "code", "stock"];
-
         const allFieldsPresent = requiredFields.every((field) => product[field]);
 
         if (!allFieldsPresent){
@@ -29,22 +27,19 @@ class ProductManager {
         }
 
         let data = await fs.promises.readFile(this.#path, 'utf-8')
-
         let products = JSON.parse(data)
-
         const found = products.find(item => item.code === product.code)
 
         if (found) {
             return 'El código ya existe.'
         }
 
-        const productToAdd = { id: this.#generateId(products), ...product }
+        const productToAdd = { id: this.#generateId(products), status: true, thumbnails: [], ...product }
         products.push(productToAdd)
 
         await fs.promises.writeFile(this.#path, JSON.stringify(products, null, 2))
 
         return productToAdd
-
     }
 
     #generateId(products) {
@@ -60,7 +55,6 @@ class ProductManager {
         }
 
         let data = await fs.promises.readFile(this.#path, 'utf-8')
-
         const products = JSON.parse(data)
 
         return products
